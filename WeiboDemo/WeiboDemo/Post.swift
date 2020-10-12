@@ -11,8 +11,8 @@ struct PostList: Codable {
     var list: [Post]
 }
 
-
-struct Post: Codable {
+//Data model
+struct Post: Codable, Identifiable {
     
     
     //属性
@@ -31,6 +31,29 @@ struct Post: Codable {
     var commentCount: Int //评论数
     var likeCount: Int //点赞数
     var isLiked: Bool //我是否点赞
+    
+}
+
+//可以添加只读属性和函数
+//这里添加与view相关的属性
+extension Post {
+    
+    //计算属性 只读属性
+    var avatarImage: Image{
+        return loadImage(name: avatar)
+    }
+    
+    var commentCountText: String{
+        if commentCount <= 0 { return "评论"}
+        if commentCount < 1000 { return "\(commentCount)"}
+        return String(format: "%.1fk", Double(commentCount) / 1000)
+    }
+    
+    var likeCountText: String{
+        if likeCount <= 0 { return "点赞"}
+        if likeCount < 1000 { return "\(likeCount)" }
+        return String(format: "%.1fk", Double(likeCount) / 1000)
+    }
     
 }
 
@@ -53,4 +76,10 @@ func loadPostListData(_ fileName:String) -> PostList{
 
 func loadImage(name:String) -> Image {
     Image(uiImage: UIImage(named: name)!)
+}
+
+struct Post_Previews: PreviewProvider {
+    static var previews: some View {
+        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
+    }
 }

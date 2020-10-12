@@ -13,7 +13,7 @@ struct PostCell: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 5){
-                loadImage(name: post.avatar)
+                post.avatarImage
                     .resizable()
                     .scaledToFill()
                     .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
@@ -49,6 +49,7 @@ struct PostCell: View {
                                         .stroke(Color.orange, lineWidth: 1)
                             )
                     }
+                    .buttonStyle(BorderlessButtonStyle())
                 }
             }
 //
@@ -69,7 +70,7 @@ struct PostCell: View {
                 Spacer()
                 
                 PostCellToolbarButton(image:"message",
-                                      text:"评论",
+                                      text: post.commentCountText,
                                       color:.black){
                     print("comment")
                 }
@@ -77,7 +78,7 @@ struct PostCell: View {
                 Spacer()
                 
                 PostCellToolbarButton(image:"heart",
-                                      text:"点赞",
+                                      text: post.likeCountText,
                                       color:.black){
                     print("like")
                 }
@@ -86,14 +87,18 @@ struct PostCell: View {
                 
             }
             
-            
+            Rectangle()
+                .padding(.horizontal, -15)
+                .frame(height:10)
+                .foregroundColor(.init(red: 238 / 255, green: 238 / 255, blue: 238 / 255))
         }
         .padding(.horizontal,15)
+        .padding(.top, 15)
     }
 }
 
 struct PostCell_Previews: PreviewProvider {
     static var previews: some View {
-        PostCell(post: postList.list[0])
+        PostCell(post: postList.list[1])
     }
 }
